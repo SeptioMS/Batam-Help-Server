@@ -1,0 +1,130 @@
+<link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"> 
+    <!-- Ionicons -->
+  <!--  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+          page. However, you can choose any other skin. Make sure you
+          apply the skin class to the body tag so the changes take effect.
+    -->
+    <link rel="stylesheet" href="../../dist/css/skins/skin-green.css">
+
+<body onLoad="viewdata()">
+    <p><br/></p>
+    <div class="container">
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+  Tambah Data Instansi
+</button>
+<br/>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Tambah Data</h4>
+      </div>
+      <div class="modal-body">
+        
+<form>
+  <div class="form-group">
+    <label for="un">Username</label>
+    <input type="text" class="form-control" id="un">
+  </div>
+  <div class="form-group">
+    <label for="ps">Password</label>
+    <input type="password" class="form-control" id="ps">
+  </div>
+  <div class="form-group">
+    <label for="nm">Nama</label>
+    <input type="text" class="form-control" id="nm">
+  </div>
+  <div class="form-group">
+    <label for="al">Alamat</label>
+    <input type="text" class="form-control" id="al">
+  </div>
+  <div class="form-group">
+    <label for="tl">Telepon</label>
+    <input type="text" class="form-control" id="tl">
+  </div>
+  <div class="form-group">
+    <label for="el">Email</label>
+    <input type="text" class="form-control" id="el">
+  </div>
+</form>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+        <button type="button" id="save" class="btn btn-primary">Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>    
+<div id="info"></div>
+ <br/>
+      <div id="viewdata"></div>
+    </div>
+	<script src="../../plugins/jQuery/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="../../bootstrap/js/bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../../dist/js/app.min.js"></script>
+<script>
+
+    function viewdata(){
+       $.ajax({
+	   type: "GET",
+	   url: "../proses/getdatainstansi.php"
+      }).done(function( data ) {
+	  $('#viewdata').html(data);
+      });
+    }
+	
+      $('#save').click(function(){
+	var un = $('#un').val();
+	var nm = $('#nm').val();
+	var ps = $('#ps').val();
+	var al = $('#al').val();
+	var tl = $('#tl').val();
+	var el = $('#el').val();
+	
+	var datas="un="+un+"&nm="+nm+"&ps="+ps+"&al="+al+"&tl="+tl+"&el="+el;
+      
+	$.ajax({
+	   type: "POST",
+	   url: "../proses/newdatainstansi.php",
+	   data: datas
+	}).done(function( data ) {
+	  $('#info').html(data);
+	  viewdata();
+	});
+    });
+    
+	function updatedata(str){
+	
+	var un = str;
+	var ps = $('#ps'+str).val();
+	var nm = $('#nm'+str).val();
+	var al = $('#al'+str).val();
+	var tl = $('#tl'+str).val();
+	var el = $('#el'+str).val();
+	
+	var datas="nm="+nm+"&ps="+ps+"&al="+al+"&tl="+tl+"&el="+el;
+      
+	$.ajax({
+	   type: "POST",
+	   url: "../proses/ubahdatainstansi.php?username="+un,
+	   data: datas
+	}).done(function( data ) {
+	  $('#info').html(data);
+	  viewdata();
+	});
+    }
+    
+    </script>
+         
+</body>
